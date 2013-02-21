@@ -1,5 +1,7 @@
 package com.example.pacman;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.MotionEvent;
@@ -9,7 +11,7 @@ public class MainActivity extends Activity {
 	private RelativeLayout viewGroup;
 	private GameController gameController;
 	private Pacman pacman;
-	private Coin coin;
+	private ArrayList<Object> CoinList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +19,14 @@ public class MainActivity extends Activity {
 		viewGroup = new RelativeLayout(this);
 		gameController = new GameController(this);
 		viewGroup.addView(gameController);
-		coin = new Coin(this, 200, 200);
-		viewGroup.addView(coin);
+		CoinList = new ArrayList<Object>();
+		for (int i = 1; i <= 10; i++) {
+			for (int j = 1; j <= 10; j++) {
+				Coin coin = new Coin(this, i * 50, j * 50 + 200);
+				CoinList.add(coin);
+				viewGroup.addView(coin);
+			}
+		}
 		pacman = new Pacman(this, 100, 100);
 		viewGroup.addView(pacman);
 
@@ -32,6 +40,13 @@ public class MainActivity extends Activity {
 		switch (e.getAction()) {
 		case MotionEvent.ACTION_MOVE:
 			pacman.move(e);
+			for (int i = 0; i < CoinList.size(); i++) {
+				Coin coin = (Coin) CoinList.get(i);
+				if (pacman.isEatCoin(coin)) {
+					CoinList.remove(coin);
+					viewGroup.removeView(coin);
+				}
+			}
 			break;
 		default:
 			break;
