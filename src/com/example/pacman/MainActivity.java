@@ -7,8 +7,9 @@ import android.widget.RelativeLayout;
 
 public class MainActivity extends Activity {
 	private RelativeLayout viewGroup;
-	private Pacman pacman;
 	private GameController gameController;
+	private Pacman pacman;
+	private Coin coin;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -16,11 +17,12 @@ public class MainActivity extends Activity {
 		viewGroup = new RelativeLayout(this);
 		gameController = new GameController(this);
 		viewGroup.addView(gameController);
-		pacman = new Pacman(this);
+		coin = new Coin(this, 200, 200);
+		viewGroup.addView(coin);
+		pacman = new Pacman(this, 100, 100);
 		viewGroup.addView(pacman);
 
 		setContentView(viewGroup);
-		// setContentView(pacman);
 		// setContentView(R.layout.activity_main);
 	}
 

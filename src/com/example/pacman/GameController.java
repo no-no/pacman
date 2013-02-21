@@ -16,12 +16,11 @@ public class GameController extends View {
 
 	public GameController(Context context) {
 		super(context);
-		pacman = new Pacman(context);
 	}
 
 	protected void onDraw(Canvas canvas) {
 		Paint paint = new Paint();
-		String touchPosition = "タッチしたポジション" + String.valueOf(this.touchPositionX) + ", "
+		String touchPosition = "タッチしたポジション: " + String.valueOf(this.touchPositionX) + ", "
 				+ String.valueOf(this.touchPositionY);
 		canvas.drawText(touchPosition, 10, 10, paint);
 	}
