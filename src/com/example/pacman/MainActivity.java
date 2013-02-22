@@ -36,7 +36,9 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent e) {
+
 		gameController.disp(e);
+
 		switch (e.getAction()) {
 		case MotionEvent.ACTION_MOVE:
 			pacman.move(e);
