@@ -11,15 +11,16 @@ public class Pacman extends View {
 	private int size = 50;
 	private int positionX;
 	private int positionY;
+	private Paint paint;
 
 	public Pacman(Context context, int x, int y) {
 		super(context);
 		this.positionX = x;
 		this.positionY = y;
+		paint = new Paint();
 	}
 
 	protected void onDraw(Canvas canvas) {
-		Paint paint = new Paint();
 		paint.setColor(Color.BLACK);
 		paint.setAntiAlias(true);
 		canvas.drawCircle(this.positionX, this.positionY, this.size, paint);
@@ -33,6 +34,7 @@ public class Pacman extends View {
 		int touchPositionX = (int) event.getX();
 		int touchPositionY = (int) event.getY() - 100;
 
+		// @todo あたり判定の数字は各オブジェクトのサイズをとらないと
 		if (
 				( this.positionX - 75 <= touchPositionX) && (touchPositionX <= this.positionX + 75) &&
 				( this.positionY - 75 <= touchPositionY) && (touchPositionY <= this.positionY + 75)) {
@@ -44,14 +46,16 @@ public class Pacman extends View {
 	}
 
 	public boolean isEatCoin(Coin coin) {
-		int touchPositionX = (int) coin.getPositionX();
-		int touchPositionY = (int) coin.getPositionY();
-		if (
-				(this.positionX - 50 <= touchPositionX) && (touchPositionX <= this.positionX + 50) &&
-				(this.positionY - 50) <= touchPositionY && (touchPositionY <= this.positionY + 50)) {
+		if(coin.isEatenByPacman(this.positionX, this.positionY)){
 			return true;
 		}
 		return false;
+	}
 
+	public boolean isEatenByEnemy(Enemy enemy){
+		if (enemy.isEatPacman(this.positionX, this.positionY)) {
+			return true;
+		}
+		return false;
 	}
 }
