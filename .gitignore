@@ -1,3 +1,5 @@
 bin/classes
 bin/dexedLibs
 bin/pacman.apk
+/bin/pacman.apk
+/bin/classes.dex
