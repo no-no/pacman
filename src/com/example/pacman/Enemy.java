@@ -32,16 +32,16 @@ public class Enemy extends View {
 		int n = random.nextInt(50);
 
 		if (n % 4 == 0) {
-			this.positionX += 25;
+			this.positionX += 30;
 		}
 		if (n % 4 == 1) {
-			this.positionX -= 25;
+			this.positionX -= 30;
 		}
 		if (n % 4 == 2) {
-			this.positionY += 25;
+			this.positionY += 30;
 		}
 		if (n % 4 == 3) {
-			this.positionY -= 25;
+			this.positionY -= 30;
 		}
 		this.invalidate();
 	}
