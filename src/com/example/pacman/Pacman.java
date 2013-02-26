@@ -52,14 +52,18 @@ public class Pacman extends BaseGameObject {
 		return false;
 	}
 
-	public boolean canMove(ArrayList<Object> WallList){
+	public boolean canMove(MotionEvent event, ArrayList<Object> WallList){
+		int touchPositionX = (int) event.getX();
+		int touchPositionY = (int) event.getY() - 100;
+
+		int[][] moveArea = this.getMoveArea(touchPositionX, touchPositionY);
+
 		for (int i = 0; i < WallList.size(); i++) {
 			Wall wall = (Wall) WallList.get(i);
-			if (wall.isExist(this.positionX, this.positionY)) {
-				return true;
+			if (wall.isExist(moveArea)) {
+				return false;
 			}
 		}
-
-		return false;
+		return true;
 	}
 }

@@ -13,7 +13,6 @@ public class MainActivity extends Activity {
 	private GameController gameController;
 	private Pacman pacman;
 	private Enemy enemy;
-//	private Wall wall;
 	private ArrayList<Object> CoinList;
 	private ArrayList<Object> WallList;
 	private Timer gameTimer;
@@ -38,7 +37,7 @@ public class MainActivity extends Activity {
 
 		// 壁を初期化
 		WallList = new ArrayList<Object>();
-		Wall wall = new Wall(this, 100, 200, 200, 300);
+		Wall wall = new Wall(this, 200, 100, 500, 200);
 		WallList.add(wall);
 		viewGroup.addView(wall);
 
@@ -81,7 +80,7 @@ public class MainActivity extends Activity {
 			}
 
 			// pacmanが壁に当たっていたら何もしない
-			if (pacman.canMove(WallList)){
+			if (pacman.canMove(event, WallList)){
 				return false;
 			}
 			// pacmanの移動
