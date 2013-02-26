@@ -1,4 +1,4 @@
-/bin/classes
 /bin/dexedLibs
 /bin/pacman.apk
 /bin/classes.dex
+/bin/classes/com/example/pacman/*.class

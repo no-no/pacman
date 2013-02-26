@@ -1,23 +1,16 @@
 package com.example.pacman;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.view.View;
 import android.view.MotionEvent;
 
-public class Pacman extends View {
-	private int size = 50;
-	private int positionX;
-	private int positionY;
-	private Paint paint;
+public class Pacman extends BaseGameObject {
 
 	public Pacman(Context context, int x, int y) {
-		super(context);
-		this.positionX = x;
-		this.positionY = y;
-		paint = new Paint();
+		super(context, x, y);
 	}
 
 	protected void onDraw(Canvas canvas) {
@@ -56,6 +49,17 @@ public class Pacman extends View {
 		if (enemy.isEatPacman(this.positionX, this.positionY)) {
 			return true;
 		}
+		return false;
+	}
+
+	public boolean canMove(ArrayList<Object> WallList){
+		for (int i = 0; i < WallList.size(); i++) {
+			Wall wall = (Wall) WallList.get(i);
+			if (wall.isExist(this.positionX, this.positionY)) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 }

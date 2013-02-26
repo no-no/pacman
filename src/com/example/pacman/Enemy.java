@@ -5,21 +5,12 @@ import java.util.Random;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.view.View;
 
-public class Enemy extends View {
-	private int size = 50;
-	private int positionX;
-	private int positionY;
-	private Paint paint;
+public class Enemy extends BaseGameObject {
 	Random random = new Random();
 
 	public Enemy(Context context, int x, int y) {
-		super(context);
-		this.positionX = x;
-		this.positionY = y;
-		paint = new Paint();
+		super(context, x, y);
 	}
 
 	protected void onDraw(Canvas canvas) {

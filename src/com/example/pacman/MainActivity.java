@@ -13,7 +13,9 @@ public class MainActivity extends Activity {
 	private GameController gameController;
 	private Pacman pacman;
 	private Enemy enemy;
+//	private Wall wall;
 	private ArrayList<Object> CoinList;
+	private ArrayList<Object> WallList;
 	private Timer gameTimer;
 	private TimerController timerController;
 
@@ -28,9 +30,19 @@ public class MainActivity extends Activity {
 	}
 
 	public void init(){
+		// viewGroupを初期化
 		viewGroup.removeAllViews();
+
 		gameController = new GameController(this);
 		viewGroup.addView(gameController);
+
+		// 壁を初期化
+		WallList = new ArrayList<Object>();
+		Wall wall = new Wall(this, 100, 200, 200, 300);
+		WallList.add(wall);
+		viewGroup.addView(wall);
+
+		// coinを初期化
 		CoinList = new ArrayList<Object>();
 		for (int i = 1; i <= 10; i++) {
 			for (int j = 1; j <= 10; j++) {
@@ -39,10 +51,15 @@ public class MainActivity extends Activity {
 				viewGroup.addView(coin);
 			}
 		}
+
+		// pacmanを初期化
 		pacman = new Pacman(this, 100, 100);
 		viewGroup.addView(pacman);
+
+		// 敵を初期化
 		enemy = new Enemy(this, 250, 500);
 		viewGroup.addView(enemy);
+
 		setContentView(viewGroup);
 
 		timerController = new TimerController(enemy);
@@ -50,13 +67,27 @@ public class MainActivity extends Activity {
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent e) {
+	public boolean onTouchEvent(MotionEvent event) {
 
-		gameController.disp(e);
+		gameController.disp(event);
 
-		switch (e.getAction()) {
+		switch (event.getAction()) {
 		case MotionEvent.ACTION_MOVE:
-			pacman.move(e);
+
+			// pacmanが敵に食べられていたら、game over
+			// @todo Timer内で敵の動きに合わせてやらないと、pacmanが動かないと当たったことにならない
+			if(pacman.isEatenByEnemy(enemy)){
+				this.init();
+			}
+
+			// pacmanが壁に当たっていたら何もしない
+			if (pacman.canMove(WallList)){
+				return false;
+			}
+			// pacmanの移動
+			pacman.move(event);
+
+			// pacmanがcoinを食べたら、コインを消す
 			for (int i = 0; i < CoinList.size(); i++) {
 				Coin coin = (Coin) CoinList.get(i);
 				if (pacman.isEatCoin(coin)) {
@@ -64,11 +95,6 @@ public class MainActivity extends Activity {
 					viewGroup.removeView(coin);
 				}
 			}
-
-			if(pacman.isEatenByEnemy(enemy)){
-				this.init();
-			}
-
 			break;
 		default:
 			break;
